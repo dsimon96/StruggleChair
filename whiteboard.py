@@ -3,7 +3,7 @@ import time
 
 def pressureSensor():
 	#top , bottom, seat =2,3,4
-	top = 2	
+	top = 1	
 	topPressure = analogRead(top)
 	#bottomPressure = analogRead(bottom)
 	#seatPressure = analogRead(seat)
@@ -14,3 +14,4 @@ def pressureSensor():
 while(True):
 	print pressureSensor()
 	time.sleep(1)
+ 
