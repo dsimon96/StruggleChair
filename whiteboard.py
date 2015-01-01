@@ -37,9 +37,9 @@ def thermistorSensor():
 while(True):
 	#blinkLed()
 	#print pressureSensor()
-	vibrationSensor()
+	#vibrationSensor()
 	#print soundSensor()
-	#print thermistorSensor()
+	print thermistorSensor()
 	time.sleep(1)
 	
  
