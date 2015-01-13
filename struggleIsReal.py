@@ -1,4 +1,5 @@
 # STRUGGLE CHAIR -- BUILD18 JAN 2015
+
 # Built and coded by rmehndir, vrramesh, dasimon, and sgakhar
 # CMU ECE c/ 2018
 
