@@ -10,7 +10,7 @@ The process running the StruggleChair will be single-threaded, relying (for now)
 FEATURES
 The current process is designed to control the following features:
 
-1. Pressure sensing using 2 force sensitive resister clusters mounted
+1. Pressure sensing using 2 force sensitive resistor clusters mounted
 on the back of the chair
 
 2. Motion of the back of the chair using 4 fixed rotation servos (range 0-180, as per usual) tethering the back to the armrest and the rest of the chair while retaining full mobility. This system will significantly differ from that used by modern recliners due to the need for full adjustability.

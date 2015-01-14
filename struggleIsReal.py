@@ -4,15 +4,45 @@
 # CMU ECE c/ 2018
 
 from gpio import *
+import requests
 
 class StruggleChair(object):
 
-	def __init__(self, topPin, bottomPin, lbServo,
-				 rbServo, ltServo, rtServo):
-		self.topPin, self.bottomPin = topPin, bottomPin
-		 # pins for pressure clusters
-		self.servoPins = [lbServo, rbServo, ltServo, rtServo]
-		# left bottom, right bottom, left top, right top
+	def __init__(self):
+
+		# SET UP ALARM (in seconds)
+		self.alarmTime = 300 # 5 minutes for demo purposes
+
+		# SET UP SESSION END TIMER (in seconds)
+		self.sessionWait = 30 # waits 1/2 minute before expiring session
+
+		# SET UP PRESSURE SENSORS
+		self.topPin = 0 # pin for top back FSR cluster
+		self.bottomPin = 1 # pin for bottom back FSR cluster
+		self.seatPin = 2 # pin for seat FSR cluster
+		self.threshLow = 50 # threshold indicating insufficient pressure
+		self.threshHigh = 750 # threshold indicating being pushed
+
+		# SET UP SERVOS
+		self.topServos = (1,2) # left/right in tuple
+		self.bottomServos = (3,4)
+
+		# SET UP THERMISTORS
+		# SET UP SOUND SENSOR
+		# SET UP PIR MOTION SENSOR
+
+		# SET UP VIBRATION MOTORS
+		self.upperMotor = 5 # pin corresponding to upper motor
+		self.lowerMotor = 6 # pin corresponding to lower motor
+
+
+
+	def initSession(self):
+		self.session = True
+		self.alarm = None
+
+	def endSession(self):
+		self.session = False
 
 	def read(self):
 		# calls all sensors and adjusts variables
