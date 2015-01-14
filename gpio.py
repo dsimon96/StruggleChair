@@ -45,8 +45,8 @@ pwmMaxVal = []
 # populate the arrays with file paths
 for pinNumber in xrange(18):
     filename = GPIO_FILENAME + str(pinNumber)
-    pinModeFiles.append(os.path.join(GPIO_MODE_PATH, filename)
-    pinDataFiles.append(os.path.join(GPIO_PIN_PATH, filename)
+    pinModeFiles.append(os.path.join(GPIO_MODE_PATH, filename))
+    pinDataFiles.append(os.path.join(GPIO_PIN_PATH, filename))
 for analogPinNumber in xrange(6):
     adcPinFile = ADC_FILENAME + str(analogPinNumber)
     adcFiles.append(os.path.join(ADC_PATH, adcPinFile))
