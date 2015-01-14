@@ -16,6 +16,8 @@
 # SETUP - called automatically when the module is imported
 ####################################################################
 
+import os
+
 # store the paths of the pin mode and pin out mode
 # gpio
 GPIO_MODE_PATH = os.path.normpath('/sys/devices/virtual/misc/gpio/mode/')
@@ -26,8 +28,8 @@ ADC_PATH = os.path.normpath('/proc/')
 ADC_FILENAME = 'adc'
 
 # create arrays to point to the files
-pinMode = []
-pinData = []
+pinModeFiles = []
+pinDataFiles = []
 adcFiles = []
 
 # create variables to translate pin instructions to file I/O
@@ -43,8 +45,8 @@ pwmMaxVal = []
 # populate the arrays with file paths
 for pinNumber in xrange(18):
     filename = GPIO_FILENAME + str(pinNumber)
-    pinMode.append(os.path.join(GPIO_MODE_PATH, filename)
-    pinData.append(os.path.join(GPIO_PIN_PATH, filename)
+    pinModeFiles.append(os.path.join(GPIO_MODE_PATH, filename)
+    pinDataFiles.append(os.path.join(GPIO_PIN_PATH, filename)
 for analogPinNumber in xrange(6):
     adcPinFile = ADC_FILENAME + str(analogPinNumber)
     adcFiles.append(os.path.join(ADC_PATH, adcPinFile))
@@ -58,7 +60,7 @@ def pinMode(pinNumber, mode):
     Set the specified pin to the specified mode.
     Requires pin number in the range 0-17, inclusive, keyword for mode
     """
-    filename = pinMode[pinNumber]
+    filename = pinModeFiles[pinNumber]
     with open(filename, 'wt') as f:
         f.write(str(mode))
 
@@ -67,7 +69,7 @@ def digitalWrite(pinNumber, value):
     Write the specified value to the specified pin
     Requires int pin number in the range 0-17, inclusive, keyword for value
     """
-    filename = pinData[pinNumber]
+    filename = pinDataFiles[pinNumber]
     with open(filename, 'wt') as f:
         f.write(str(value))
 
@@ -77,7 +79,7 @@ def digitalRead(pinNumber):
     Requires int pin number in the range 0-17, inclusive
     Returns integer 0 or 1 corresponding to logic value of pin
     """
-    filename = pinData[pinNumber]
+    filename = pinDataFiles[pinNumber]
     with open(filename, 'rt') as f:
         value = f.read(1)
     return int(value)
