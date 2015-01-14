@@ -1,0 +1,36 @@
+README!
+
+This is a (hopefully brief) description of how the code
+(primarily contained in struggleIsReal.py) is going to work
+and how it will operate the parts through a pcDuino microcontroller
+platform. The code will be written entirely in Python, as of current plans.
+
+The process running the StruggleChair will be single-threaded, relying (for now) on an infinite loop (but likely to be shifted to using a switch later).
+
+FEATURES
+The current process is designed to control the following features:
+
+1. Pressure sensing using 2 force sensitive resister clusters mounted
+on the back of the chair
+
+2. Motion of the back of the chair using 4 fixed rotation servos (range 0-180, as per usual) tethering the back to the armrest and the rest of the chair while retaining full mobility. This system will significantly differ from that used by modern recliners due to the need for full adjustability.
+
+3. An "alarm" system that activates two vibration motors once a certain time period has elapsed
+
+4. Initialization and termination of a user session relying on a third pressure sensor cluster located at the seat of the chair.
+
+5. Sleep detection using a PIR motion sensor, pressure sensors, and sound sensors
+
+6. Data storage and user personalization, at the present using get and post requests
+
+All of these will be implemented in a single class named struggleChair.
+
+A function called struggleChair.run() will handle the control flow. 
+Here's what happens at each iteration:
+
+- First, the instance of struggleChair stores a boolean called self.session (True if a session exists, False if one doesn't)
+- If a session doesn't exist, it'll check every 5 seconds and initSession() if it needs to start a session
+- Otherwise, struggleChair.run() will proceed with running a session (and checking to see if a session needs to be terminated)
+- For timing, run() will check the time at the beginning of each session; if it's running a timer, it will simply calculate the time at which the timer ends and check whether that time's been exceeded (resetting it when it has, before executing what it executes when the timer runs out); this ensures that timers do not cause costly delays in the single-threaded process
+
+@TODO: Explain other functions
