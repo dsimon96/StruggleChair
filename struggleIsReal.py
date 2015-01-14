@@ -3,6 +3,8 @@
 # Built and coded by rmehndir, vrramesh, dasimon, and sgakhar
 # CMU ECE c/ 2018
 
+from gpio import *
+
 class StruggleChair(object):
 
 	def __init__(self, topPin, bottomPin, lbServo,

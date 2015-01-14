@@ -21,8 +21,8 @@ INPUT_PU = '8' # input with pull-up resistor
 # populate the arrays with file paths
 for pinNumber in xrange(18):
     filename = GPIO_FILENAME + str(pinNumber)
-    pinMode.append(os.path.join(GPIO_MODE_PATH, filename)
-    pinData.append(os.path.join(GPIO_PIN_PATH, filename)
+    pinMode.append(os.path.join(GPIO_MODE_PATH, filename))
+    pinData.append(os.path.join(GPIO_PIN_PATH, filename))
 
 def pinMode(pinNumber, mode):
     """Set the specified pin to the specified mode"""
