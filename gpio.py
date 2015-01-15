@@ -92,5 +92,5 @@ def analogRead(pinNumber):
     """
     filename = adcFiles[pinNumber]
     with open(filename, 'rt') as f:
-        value = f.read(1)
+        value = f.read(32).split(':')[1].strip()
     return int(value)
