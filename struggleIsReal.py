@@ -72,9 +72,9 @@ class StruggleChair(object):
 
 	def startSession(self):
 		self.session = True
-		time = time.time()
-		self.sessionStart = time
-		self.alarm = time + self.alarmTime
+		now = time.time()
+		self.sessionStart = now
+		self.alarm = now + self.alarmTime
 		self.getHeat()
 		self.getSound()
 		self.initTemp = (self.topHeat + self.bottomHeat)/2
@@ -83,8 +83,8 @@ class StruggleChair(object):
 	def endSession(self):
 		self.session = False
 		self.alarm = None
-		time = time.time()
-		self.sessionEnd = time
+		now = time.time()
+		self.sessionEnd = now
 
 	def checkTop(self):
 		self.topPressure = analogRead(self.topPin)
@@ -135,24 +135,24 @@ class StruggleChair(object):
 	def run(self):
 		while True:
 			if self.session:
-				time = time.time()
-				if self.alarm and time > self.alarm:
+				now = time.time()
+				if self.alarm and now > self.alarm:
 					self.ring()
-				if self.sleepAlarm and time > self.sleepAlarm:
+				if self.sleepAlarm and now > self.sleepAlarm:
 					self.wake()
-				if self.sessionClose and time > self.sessionClose:
+				if self.sessionClose and now > self.sessionClose:
 					self.endSession()
 				self.checkSleepiness()
 				if self.sleepy:
-					self.sleepAlarm = self.sleepWait + time
+					self.sleepAlarm = self.sleepWait + now
 				self.checkSeat()
 				if self.seatPressure < self.seatThreshold:
-					self.sessionClose = time + self.sessionWait
+					self.sessionClose = now + self.sessionWait
 				self.checkTop()
 				self.checkBottom()
 				pinsOn = []
 				if ((self.topPressure > self.topRange[1]) or 
-					(self.bottomPressure < self.bottomRange[0]):
+					(self.bottomPressure < self.bottomRange[0])):
 					pinsOn.append(self.backLED)
 				if ((self.topPressure < self.topRange[0] or
 					self.bottomPressure > self.bottomRange[1])):
