@@ -167,3 +167,6 @@ class StruggleChair(object):
 				while self.seatPressure < 10:
 					self.checkSeat()
 				self.startSession()
+
+demo = StruggleChair()
+demo.run()
