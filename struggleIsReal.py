@@ -17,6 +17,7 @@ class StruggleChair(object):
 		# SET UP ALARM (in seconds)
 		self.alarmTime = 300 # 5 minutes for demo purposes
 		self.alarm = None
+		self.sleepAlarm = None
 
 		# SET UP SLEEP WAITING (in seconds)
 		self.sleepy = False
