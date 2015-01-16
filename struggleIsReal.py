@@ -24,6 +24,7 @@ class StruggleChair(object):
 
 		# SET UP SESSION END TIMER (in seconds)
 		self.sessionWait = 30 # waits 1/2 minute before expiring session
+		self.sessionClose = None
 
 		# SET UP PRESSURE SENSORS
 		self.topPin = 2 # pin for top back FSR cluster
@@ -74,8 +75,10 @@ class StruggleChair(object):
 		time = time.time()
 		self.sessionStart = time
 		self.alarm = time + self.alarmTime
-		self.getHeat
+		self.getHeat()
+		self.getSound()
 		self.initTemp = (self.topHeat + self.bottomHeat)/2
+		self.initNoise = self.amplitude
 
 	def endSession(self):
 		self.session = False
@@ -92,10 +95,12 @@ class StruggleChair(object):
 	def checkSeat(self):
 		self.seatPressure = analogRead(self.seatPin)
 
-	def lightLED(self, pin):
+	def turnOff(self):
 		digitalWrite(self.forwardLED, LOW)
 		digitalWrite(self.greenLED, LOW)
 		digitalWrite(self.backLED, LOW)
+
+	def lightLED(self, pin):
 		digitalWrite(pin, HIGH)
 
 	def ring(self):
@@ -112,14 +117,20 @@ class StruggleChair(object):
 
 	def checkSleepiness(self):
 		self.getHeat()
+		self.getSound()
 		if (self.topHeat < (self.initTemp - 400) and
-			self.bottomHeat < (self.initTemp - 400)):
+			self.bottomHeat < (self.initTemp - 400) and
+			self.amplitude < (self.initNoise - 400)):
 			self.sleepy = True
 		else:
 			self.sleepy = False
 
 	def wake(self):
-		while self.sleepy()
+		while self.sleepy():
+			digitalWrite(self.lowerMotor, HIGH)
+			digitalWrite(self.upperMotor, HIGH)
+		digitalWrite(self.lowerMotor, LOW)
+		digitalWrite(self.upperMotor, LOW)
 
 	def run(self):
 		while True:
@@ -129,6 +140,29 @@ class StruggleChair(object):
 					self.ring()
 				if self.sleepAlarm and time > self.sleepAlarm:
 					self.wake()
+				if self.sessionClose and time > self.sessionClose:
+					self.endSession()
+				self.checkSleepiness()
+				if self.sleepy:
+					self.sleepAlarm = self.sleepWait + time
+				self.checkSeat()
+				if self.seatPressure < self.seatThreshold:
+					self.sessionClose = time + self.sessionWait
+				self.checkTop()
+				self.checkBottom()
+				pinsOn = []
+				if ((self.topPressure > self.topRange[1]) or 
+					(self.bottomPressure < self.bottomRange[0]):
+					pinsOn.append(self.backLED)
+				if ((self.topPressure < self.topRange[0] or
+					self.bottomPressure > self.bottomRange[1])):
+					pinsOn.append(self.forwardLED)
+				if len(pinsOn) == 0:
+					pinsOn.append(self.greenLED)
+				self.turnOff()
+				for item in pinsOn:
+					self.lightLED(item)
+
 			else:
 				while self.seatPressure < 10:
 					self.checkSeat()
